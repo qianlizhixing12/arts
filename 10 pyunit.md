@@ -75,8 +75,6 @@ solution2(level, custom)
 >
 > https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks
 >
-> https://github.com/qianlizhixing12/leetcode/blob/master/c/test.c
->
 > https://docs.python-guide.org/writing/tests/
 >
 > https://docs.python.org/zh-cn/3/library/unittest.html#module-unittest
@@ -221,9 +219,140 @@ solution2(level, custom)
   }
   ```
 
+  ```c
+  /*
+   * 头文件tool.h
+   */
+  #ifndef __TOOL_H__
+  #define __TOOL_H__
+  
+  #include <stdbool.h>
+  
+  extern void readline(char *value);
+  extern bool isValidNum(char *value);
+  
+  #endif
+  
+  /*
+   * 源文件tool.c
+   */
+  #include <stdio.h>
+  #include <string.h>
+  #include "tool.h"
+  
+  void readline(char *value) {
+    int position = 0;
+    char c;
+    while ((c = getchar()) != '\n') {
+      value[position++] = c;
+    }
+    value[position] = '\0';
+  }
+  
+  bool isValidNum(char *value) {
+    if (!value) {
+      return false;
+    }
+  
+    //正负标志在第一位跳过
+    if (*value == '-' || *value == '+') {
+      value += 1;
+    }
+  
+    int position = 0;
+    while (*value) {
+      char c = *value;
+      //数字
+      if (c < '0' || c > '9') {
+        return false;
+      }
+      position++;
+      value += 1;
+    }
+  
+    return position > 0;
+  }
+  
+  /*
+   * 单元测试入口test.c
+   */
+  #include <setjmp.h>
+  #include <stdarg.h>
+  #include <stddef.h>
+  #include <stdint.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <cmocka.h>
+  #include "tool.h"
+  
+  static void test_isValidNum_1(void **state) {
+    (void)state; /* unused */
+    char value[] = "tst";
+    bool want = false;
+    bool target = isValidNum(value);
+    assert_int_equal(want, target);
+  }
+  
+  static void test_isValidNum_2(void **state) {
+    (void)state; /* unused */
+    char value[] = "123";
+    bool want = true;
+    bool target = isValidNum(value);
+    assert_int_equal(want, target);
+  }
+  
+  static void test_isValidNum_3(void **state) {
+    (void)state; /* unused */
+    char value[] = "+123";
+    bool want = true;
+    bool target = isValidNum(value);
+    assert_int_equal(want, target);
+  }
+  
+  static void isValidNum_4(void **state) {
+    (void)state; /* unused */
+    char value[] = "1-23";
+    bool want = true;
+    bool target = isValidNum(value);
+    assert_int_equal(want, target);
+  }
+  
+  int main(int argc, char **argv) {
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_isValidNum_1), cmocka_unit_test(test_isValidNum_2),
+        cmocka_unit_test(test_isValidNum_3), cmocka_unit_test(isValidNum_4)};
+  
+    return cmocka_run_group_tests(tests, NULL, NULL);
+  }
+  
+  /*
+   * 应用入口main.c
+   */
+  #include <stdio.h>
+  #include "tool.h"
+  
+  #include <stdio.h>
+  #include "tool.h"
+  
+  int main(int argc, char **argv) {
+    char tmp[255];
+  
+    while (true) {
+      readline(tmp);
+      if (isValidNum(tmp)) {
+        printf("%s is number!\n", tmp);
+      } else {
+        printf("%s is not number!\n", tmp);
+      }
+    }
+  
+    return 0;
+  }
+  ```
+
 - 用例通过：期望值==运行值；用例失败：期望值!=运行值。
 
-- assert_module_test.c和assert_module.h assert_module.c是隔离的，互不影响。
+- 测试assert_module_test.c和assert_module.h assert_module.c是隔离的，互不影响。
 
 - 编写一个main.c文件，作为正式的程序入口；assert_module_test.c作为单元测试的入口。
 
