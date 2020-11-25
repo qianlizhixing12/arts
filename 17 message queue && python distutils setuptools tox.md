@@ -81,6 +81,12 @@ leetcode 338 比特位计数
 
 ## Share
 
+> https://mp.weixin.qq.com/s?__biz=MzUyOTk2MTcwNg==&mid=2247485029&idx=1&sn=a986bf7b7d7003f637cfccc6428e6310&scene=21#wechat_redirect
+>
+> https://mp.weixin.qq.com/s?__biz=MzUyOTk2MTcwNg==&mid=2247485034&idx=1&sn=b4a039013e3265c04700c48b1b338e06&scene=21#wechat_redirect
+>
+> https://mp.weixin.qq.com/s/Kmqhr9szPdvBI0KQPm9JsA
+
 ### distutils
 
 > https://docs.python.org/zh-cn/3.7/distutils/introduction.html
@@ -222,3 +228,30 @@ python setup.py install
 - bdist 可执行文件分发
 - bdist_egg egg文件分发
 - bdist_wheel wheel文件分发
+
+### tox
+
+> https://zhuanlan.zhihu.com/p/101330325
+
+支持创建隔离的 Python 环境，在里面可以安装不同版本的 Python 解释器与各种依赖库，以此方便开发者做自动化测试、打包、持续集成等事情。
+
+#### 配置文件
+
+- pyproject.toml
+- tox.ini
+- setup.cfg
+
+##### tox.ini
+
+- [tox]下面是全局性的配置项，envlist 字段定义了 tox 操作的环境
+- [xxx]下面是 xxx 虚拟环境的配置项，[xxx:yyy]继承 xxx 的配置，同时其自身配置项的优先级更高
+- 常用的配置项有：description（描述信息）、basepython（Python解释器版本）、deps（环境依赖项）、commands（命令语句）等等
+- 内置的基础变量{toxinidir}、{homedir}、{envname}、{envdir}
+- 操作系统的环境变量：{env:KEY}，效果等同于`os.environ['KEY']`
+
+#### 工作流程
+
+- 配置（figuration）：加载配置文件（如 tox.ini），解析命令行参数，读取系统环境变量等
+- 打包（packaging）：可选的，对于带有 setup.py 文件的项目，可以在这步去生成它的源发行版
+- 创建虚拟环境：默认使用 virtualenv 来创建虚拟环境，并根据配置项中的“deps”安装所需的依赖项，然后执行配置好的命令（commands）
+- 报告（report）：汇总所有虚拟环境的运行结果并罗列出来
