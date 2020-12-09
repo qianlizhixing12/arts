@@ -69,8 +69,6 @@ solution2(level, custom)
 
 ## Share
 
-### 单元测试
-
 > https://en.wikipedia.org/wiki/Unit_testing
 >
 > https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks
@@ -88,12 +86,12 @@ solution2(level, custom)
 > https://github.com/scrapy/scrapy/tree/master/tests
 
 
-#### 单元测试定义
+### 单元测试定义
 
 - 在不运行最终应用程序前，先为最小的可测试单元编写测试，然后为它们之间的复合行为编写测试，以确保某个部分符合其设计并按预期运行，可以为复杂的应用程序构建全面的测试。
 - 最小的可测试单元可以是一个的函数，一个类，一个接口，一个模块等。
 
-#### 单元测试意义
+### 单元测试意义
 
 - 编写单元测试，需要一定的‘代价’，因为质量不高的最小单元，是写不出好的单元测试的。
 - 付出‘代价’的同时，带来的优势(相互影响包含)。
@@ -113,7 +111,7 @@ solution2(level, custom)
     - 讨论交流中取长补短
     - 大佬呼吁，没有代码评审和单元测试文化的公司，请离开
 
-#### 单元测试框架
+### 单元测试框架
 
 - 几乎所有的编程语言都有单元测试框架
 
@@ -360,7 +358,7 @@ solution2(level, custom)
 
 - 结合编程语言本身特点，测试框架可以隐藏入口文件，通过@Test，文件Test_等魔法分离发布代码和测试代码，前提条件，遵守约定(类似Servlet规范等)；指定运行入口(如pytest)。
 
-#### unittest
+### unittest
 
 - unittest是python标准模块，风格类似JUnit。
 
@@ -490,11 +488,11 @@ solution2(level, custom)
 
 - 将测试代码和源代码分开到不同文件很有必要。
 
-#### pytest
+### pytest
 
 - 第三方模块，需要安装
 
-- 框架封装的更智能，用例发现更简单，用户只需要按约定命名并import pytest即可
+- 框架封装的更智能，用例发现更简单(`test_` 前缀函数， `Test` 前缀类)，用户只需要按约定命名并import pytest即可
 
   ```python
   #luanch.json
@@ -551,7 +549,58 @@ solution2(level, custom)
   '''
   ```
 
-#### 总结
+#### 指定测试用例
+
+- 在模块中运行测试 pytest test_mod.py
+- 在目录中运行测试 pytest testing/
+- 按节点ID运行测试 pytest test_mod.py::test_func或者pytest test_mod.py::TestClass::test_method
+- 从包运行测试 pytest --pyargs pkg.testing
+
+#### 跟踪回溯打印
+
+- --showlocals # show local variables in tracebacks
+- -l           # show local variables (shortcut)
+- --tb=auto    # (default) 'long' tracebacks for the first and last # entry, but 'short' style for the other entries
+- --tb=long    # exhaustive, informative traceback formatting
+- --tb=short   # shorter traceback format
+- --tb=line    # only one line per failure
+- --tb=native  # Python standard library formatting
+- --tb=no      # no traceback at all
+
+#### 详细总结报告-r
+
+默认fE
+
+- f -失败
+
+- E -误差
+
+- s 跳过
+
+- x -失败
+
+- X -XPASS
+
+- p 通过
+
+- P -通过输出
+
+#### 保存结果
+
+- JUnitXML格式文件 pytest --junitxml=path
+- 结果日志格式文件  pytest --resultlog=path
+
+#### 代码调用pytest
+
+- pytest.main()
+
+#### fixtures
+
+- 初始化测试功能，它们提供了一个固定的基线，以便测试可靠地执行并产生一致的、可重复的结果。初始化可以设置服务、状态或其他操作环境。在fixture函数中，每个函数的参数通常在test之后被命名为fixture
+- pytest fixtures相对于传统的xUnit风格的setup/teardown函数提供了显著的改进
+- conftest.py共享初始化
+
+### 总结
 
 - 单元测试框架上手快
 - 多写多练多看
