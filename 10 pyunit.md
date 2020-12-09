@@ -599,6 +599,7 @@ solution2(level, custom)
 - 初始化测试功能，它们提供了一个固定的基线，以便测试可靠地执行并产生一致的、可重复的结果。初始化可以设置服务、状态或其他操作环境。在fixture函数中，每个函数的参数通常在test之后被命名为fixture
 - pytest fixtures相对于传统的xUnit风格的setup/teardown函数提供了显著的改进
 - conftest.py共享初始化
+- @pytest.fixtures(params=)，params可循环序列，request.param . 无需更改测试功能代码。让我们再跑一次
 
 ### 总结
 
