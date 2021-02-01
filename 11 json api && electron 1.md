@@ -38,7 +38,7 @@ json api风格
 
 - json api 顶级对象
 - 必须至少包含data(primary data),errors(错误列表),meta(非标准元信息)一个
-- 打他，errors不能同时存在
+- data，errors不能同时存在
 - 可以包含jsonapi,links,include(primary data相关链接)
 - 可以包含self,retated
 - primary data代表请求单一资源(资源对象或null)或资源集合(资源对象列表或[])
